@@ -18,13 +18,12 @@ def analysis():
     # print(type(questions))
     # print(questions[0])
     # questions[7] contains GPAs
-    points=[]
     for i in range(len(survey_responses)):
-        survey_responses.iloc[i,7] = float(survey_responses.iloc[i,7])
-    # points = [None]+survey_responses.iloc[:,7]
-    # print(points)
-    plt.plot(survey_responses[questions[7]],'ro')
+        survey_responses.iloc[i, 7] = float(survey_responses.iloc[i, 7])
+    print(survey_responses)
+    plt.plot(survey_responses[questions[7]], 'ro')
     plt.show()
+
 
 # Do not run this function if you have already generated those two files because
 # it will overwrite them.
@@ -33,9 +32,7 @@ def write_csv_files():
     emails = pd.DataFrame(raw_data.iloc[1:, 17])
     survey_answers = raw_data.iloc[1:, list(range(9, 17))]
     emails.to_csv('./data/emails.csv', index=None, header=True)
-    survey_answers.to_csv('./data/questions.only.csv',
-                          index=None, header=True)
-
+    survey_answers.to_csv('./data/questions.only.csv', index=None, header=True)
 
 
 analysis()
@@ -55,5 +52,5 @@ for key in graph.keys():
 print(x)
 print(y)
 
-plt.plot(x,y,'ro')
+plt.plot(x, y, 'ro')
 plt.show()
