@@ -123,6 +123,28 @@ def find_Z_alpha(confidence):
     return alpha, Z_alpha_over2
 
 
+def beta_error(Zalpha2, sigma, n, mu0=3.2, mu1=3.3):
+    old_Z = abs(Zalpha2)
+    diff = mu1-mu0
+    beta = probability_of_Z(old_Z-(diff*math.sqrt(n)/sigma))
+    return beta
+
+def normal_plot(data):
+    from numpy.polynomial.polynomial import polyfit
+    gpas = gpa_list(data)
+    print(type("gpa type:",gpas))
+    js = [j+1 for j in range(0, len(gpas))]
+    prob_dis = [(j-0.5) / (len(js)) for j in js]
+    plt.scatter(gpas, prob_dis, s=7, alpha=0.5)
+    plt.show()
+    plt.figure()
+
+    b, m = polyfit(gpas, prob_dis, 1)
+    plt.plot(gpas, prob_dis)
+    plt.plot(gpas, b + m * gpas, '-')
+    plt.show()
+
+
 cleaned = clean(numerical_survey)
 
 n = sample_size(cleaned)
@@ -140,6 +162,20 @@ alpha, cutoff_Z = find_Z_alpha(0.98)
 print("alpha:", alpha)
 print("Z alpha/2:", cutoff_Z)
 
-p_value, actual_Z = calculate_p_value(cleaned)
+# null hypothesis
+mu0=3.2
+p_value, actual_Z = calculate_p_value(cleaned, mu0=mu0)
 print("actual Z:", actual_Z)
 print("p_value:", p_value)
+rejection = ""
+if p_value < alpha:
+    rejection = "can"
+else:
+    rejection = "can not"
+print("We {} reject the null hypothesis that u0={}".format(rejection,mu0))
+
+
+beta = beta_error(cutoff_Z, S, n)
+print("beta error:", beta)
+print("power of test:", 1-beta)
+
