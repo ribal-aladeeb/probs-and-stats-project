@@ -46,10 +46,9 @@ def clean(survey_filename: str):
     return responses
 
 
-# def save_cleaned_dataframe(df):
-
-#     df.to_csv('./data/analysis.ready.data.csv', index=None, header=True)
-#     return
+def save_cleaned_dataframe(df):
+    df.to_csv('./data/analysis.ready.data.csv', index=None, header=True)
+    return
 
 
 # def plot_gpas_alone(data: str):
@@ -84,5 +83,5 @@ def write_csv_files():
 
 
 cleaned = clean(numerical_survey)
-
+save_cleaned_dataframe(cleaned)
 print(cleaned)
